@@ -43,6 +43,7 @@ import org.fossify.camera.views.FocusCircleView
 import org.fossify.commons.extensions.*
 import org.fossify.commons.helpers.*
 import java.util.concurrent.TimeUnit
+import java.util.Locale
 import kotlin.math.abs
 
 class MainActivity : SimpleActivity(), PhotoProcessor.MediaSavedListener, CameraXPreviewListener {
@@ -735,6 +736,7 @@ class MainActivity : SimpleActivity(), PhotoProcessor.MediaSavedListener, Camera
         if (!mIsZoomSliderDragging) {
             binding.zoomSlider.value = fraction
         }
+        binding.zoomValue.text = String.format(Locale.US, "%.1f", zoomRatio) + "x"
     }
 
     override fun setFlashAvailable(available: Boolean) {
