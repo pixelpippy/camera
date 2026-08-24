@@ -23,6 +23,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.button.MaterialButtonToggleGroup
+import com.google.android.material.slider.Slider
 import com.google.android.material.tabs.TabLayout
 import org.fossify.camera.BuildConfig
 import org.fossify.camera.R
@@ -69,6 +70,9 @@ class MainActivity : SimpleActivity(), PhotoProcessor.MediaSavedListener, Camera
     private var mLastHandledOrientation = 0
     private var countDownTimer: CountDownTimer? = null
     private var mOriginalBrightness: Float? = null
+    private var mMinZoomRatio = 1f
+    private var mMaxZoomRatio = 1f
+    private var mIsZoomSliderDragging = false
 
     private val tabSelectedListener = object : TabSelectedListener {
         override fun onTabSelected(tab: TabLayout.Tab) {
@@ -303,6 +307,7 @@ class MainActivity : SimpleActivity(), PhotoProcessor.MediaSavedListener, Camera
         setContentView(binding.root)
         initButtons()
         initModeSwitcher()
+        initZoomSlider()
         binding.apply {
             defaultScene = Scene(topOptions, layoutTop.defaultIcons)
             flashModeScene = Scene(topOptions, layoutFlash.flashToggleGroup)
@@ -431,6 +436,30 @@ class MainActivity : SimpleActivity(), PhotoProcessor.MediaSavedListener, Camera
         }
 
         setTimerModeIcon(config.timerMode)
+    }
+
+    private fun initZoomSlider() = binding.zoomSlider.apply {
+        valueFrom = 0f
+        valueTo = 100f
+        stepSize = 0f
+        value = 0f
+
+        addOnSliderTouchListener(object : Slider.OnSliderTouchListener {
+            override fun onStartTrackingTouch(slider: Slider) {
+                mIsZoomSliderDragging = true
+            }
+
+            override fun onStopTrackingTouch(slider: Slider) {
+                mIsZoomSliderDragging = false
+            }
+        })
+
+        addOnChangeListener { _, value, fromUser ->
+            if (fromUser) {
+                val zoomRatio = mMinZoomRatio + (mMaxZoomRatio - mMinZoomRatio) * (value / 100f)
+                mPreview?.setZoomRatio(zoomRatio)
+            }
+        }
     }
 
     private fun animateCameraToggle() {
@@ -693,6 +722,19 @@ class MainActivity : SimpleActivity(), PhotoProcessor.MediaSavedListener, Camera
 
     override fun setHasFrontAndBackCamera(hasFrontAndBack: Boolean) {
         binding.toggleCamera.beVisibleIf(hasFrontAndBack)
+    }
+
+    override fun onZoomChanged(zoomRatio: Float, minZoomRatio: Float, maxZoomRatio: Float) {
+        mMinZoomRatio = minZoomRatio
+        mMaxZoomRatio = maxZoomRatio
+        val fraction = if (maxZoomRatio > minZoomRatio) {
+            ((zoomRatio - minZoomRatio) / (maxZoomRatio - minZoomRatio) * 100f).coerceIn(0f, 100f)
+        } else {
+            0f
+        }
+        if (!mIsZoomSliderDragging) {
+            binding.zoomSlider.value = fraction
+        }
     }
 
     override fun setFlashAvailable(available: Boolean) {

@@ -112,6 +112,19 @@
         tools:text="00:00"
         tools:visibility="visible" />
 
+    <com.google.android.material.slider.Slider
+        android:id="@+id/zoom_slider"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/big_margin"
+        android:layout_marginEnd="@dimen/big_margin"
+        android:layout_marginBottom="@dimen/medium_margin"
+        android:contentDescription="@string/zoom"
+        app:labelBehavior="gone"
+        app:layout_constraintBottom_toTopOf="@id/camera_mode_holder"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <ImageView
         android:id="@+id/last_photo_video_preview"
         android:layout_width="@dimen/icon_size"

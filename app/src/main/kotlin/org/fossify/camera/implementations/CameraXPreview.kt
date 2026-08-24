@@ -365,6 +365,9 @@ class CameraXPreview(
                 cameraErrorHandler.handleCameraError(cameraState.error)
             }
         }
+        camera?.cameraInfo?.zoomState?.observe(activity) { zoomState ->
+            listener.onZoomChanged(zoomState.zoomRatio, zoomState.minZoomRatio, zoomState.maxZoomRatio)
+        }
     }
 
     private fun hasBackCamera(): Boolean {
@@ -538,6 +541,10 @@ class CameraXPreview(
         } else {
             toggleFlashlight()
         }
+    }
+
+    override fun setZoomRatio(zoomRatio: Float) {
+        camera?.cameraControl?.setZoomRatio(zoomRatio)
     }
 
     private fun toggleFlashlight() {

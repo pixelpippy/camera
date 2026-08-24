@@ -10,6 +10,8 @@ interface MyPreview {
 
     fun handleFlashlightClick()
 
+    fun setZoomRatio(zoomRatio: Float)
+
     fun tryTakePicture()
 
     fun toggleRecording()

@@ -22,6 +22,7 @@ interface CameraXPreviewListener {
     fun onVideoDurationChanged(durationNanos: Long)
     fun onFocusCamera(xPos: Float, yPos: Float)
     fun onTouchPreview()
+    fun onZoomChanged(zoomRatio: Float, minZoomRatio: Float, maxZoomRatio: Float)
     fun displaySelectedResolution(resolutionOption: ResolutionOption)
     fun showImageSizes(
         selectedResolution: ResolutionOption,
