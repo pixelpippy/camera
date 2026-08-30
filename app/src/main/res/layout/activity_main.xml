@@ -61,14 +61,15 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/camera_mode_holder" />
+        app:layout_constraintTop_toTopOf="@id/shutter" />
 
     <RelativeLayout
         android:id="@+id/camera_mode_holder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/medium_margin"
-        app:layout_constraintBottom_toTopOf="@id/shutter"
+        android:layout_marginBottom="@dimen/medium_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
@@ -136,7 +137,7 @@
         android:layout_marginBottom="@dimen/medium_margin"
         android:contentDescription="@string/zoom"
         app:labelBehavior="gone"
-        app:layout_constraintBottom_toTopOf="@id/camera_mode_holder"
+        app:layout_constraintBottom_toTopOf="@id/shutter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -161,10 +162,9 @@
         android:layout_marginBottom="@dimen/big_margin"
         android:contentDescription="@string/shutter"
         android:src="@drawable/ic_shutter_animated"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/camera_mode_holder"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintVertical_bias="1" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/toggle_camera"

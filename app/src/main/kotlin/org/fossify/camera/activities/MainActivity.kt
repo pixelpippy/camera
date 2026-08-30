@@ -994,7 +994,7 @@ class MainActivity : SimpleActivity(), PhotoProcessor.MediaSavedListener, Camera
                 constraintSet.connect(
                     previewView.id,
                     ConstraintSet.BOTTOM,
-                    cameraModeHolder.id,
+                    shutter.id,
                     ConstraintSet.TOP
                 )
             } else {
